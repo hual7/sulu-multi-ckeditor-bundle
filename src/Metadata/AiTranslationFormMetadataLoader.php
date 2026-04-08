@@ -53,16 +53,25 @@ final class AiTranslationFormMetadataLoader implements FormMetadataLoaderInterfa
     {
         foreach ($form->getItems() as $item) {
             if ($item instanceof SectionMetadata) {
-                foreach ($item->getItems() as $field) {
-                    self::remapField($field);
-                }
+                self::remapSection($item);
             } elseif ($item instanceof FieldMetadata) {
                 self::remapField($item);
             }
         }
     }
 
-    public static function remapField(FieldMetadata $field): void
+    private static function remapSection(SectionMetadata $section): void
+    {
+        foreach ($section->getItems() as $item) {
+            if ($item instanceof SectionMetadata) {
+                self::remapSection($item);
+            } elseif ($item instanceof FieldMetadata) {
+                self::remapField($item);
+            }
+        }
+    }
+
+    private static function remapField(FieldMetadata $field): void
     {
         $mappedType = self::FIELD_TYPE_MAP[$field->getType()] ?? null;
         if (null !== $mappedType) {

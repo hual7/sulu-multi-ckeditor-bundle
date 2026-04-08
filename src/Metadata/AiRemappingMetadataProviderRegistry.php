@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 final readonly class AiRemappingMetadataProviderRegistry extends MetadataProviderRegistry
 {
     public function __construct(
-        private readonly MetadataProviderRegistry $inner,
+        private MetadataProviderRegistry $inner,
     ) {
         // Pass an empty ServiceLocator to satisfy the parent constructor.
         // getMetadataProvider() is overridden and always delegates to $inner.
